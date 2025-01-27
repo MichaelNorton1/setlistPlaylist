@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 
 function App() {
@@ -8,11 +8,17 @@ function App() {
     const [error, setError] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
 
+
+    // decide on state managment to make more components
+    // local storage?
+    // add and delete from songs to send to spotity
+
     useEffect(() => {
         const query = new URLSearchParams(window.location.search);
         const token = query.get("access_token");
         if (token) {
             setAccessToken(token);
+
             window.history.replaceState({}, document.title, "/");
         }
     }, []);
@@ -24,10 +30,14 @@ function App() {
                 band,
                 yearOf,
             });
-            console.log(response);
-            setSetlists(response.data);
+
+            setSetlists(response.data.map((item) => {
+                return {setlist: item, set: item.sets}
+            }));
+            console.log(setlists[0].set.set[0].song);
             setError(null);
         } catch (err) {
+            console.log(err);
             setError(err.response?.data?.error || "An error occurred.");
         }
     };
@@ -103,7 +113,14 @@ function App() {
                             {setlists.map((setlist, index) => (
 
                                 <li key={index}>
-                                    <strong>{setlist.eventDate}</strong>: {setlist.venue?.name}, {setlist.venue?.city?.name}
+                                    <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                    <ul>
+                                        {setlist.set.set[0].song.map((song, index) => (
+                                            <li key={index}>{song.name}</li>
+
+                                        ))}</ul>
+
+
                                 </li>
                             ))}
                         </ul>
