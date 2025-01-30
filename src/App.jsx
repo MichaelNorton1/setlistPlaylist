@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import AddToPlaylist from "./components/AddToPlaylist.jsx";
 
 function App() {
     const [band, setBand] = useState("");
@@ -7,6 +8,8 @@ function App() {
     const [setlists, setSetlists] = useState([]);
     const [error, setError] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
+    let date = new Date();
+
 
 
     // decide on state managment to make more components
@@ -14,13 +17,16 @@ function App() {
     // add and delete from songs to send to spotity
 
     useEffect(() => {
+        setYearOf(date.getFullYear())
         const query = new URLSearchParams(window.location.search);
         const token = query.get("access_token");
         if (token) {
             setAccessToken(token);
+            sessionStorage.setItem("accessToken", token);
 
             window.history.replaceState({}, document.title, "/");
         }
+
     }, []);
 
     const handleBandSearch = async (e) => {
@@ -30,11 +36,12 @@ function App() {
                 band,
                 yearOf,
             });
-
-            setSetlists(response.data.map((item) => {
-                return {setlist: item, set: item.sets}
+            const transformedData = response.data.map((item) => ({
+                setlist: item,
+                set: item?.sets, // assuming sets is part of the item
             }));
-            console.log(setlists[0].set.set[0].song);
+            setSetlists(transformedData)
+
             setError(null);
         } catch (err) {
             console.log(err);
@@ -54,7 +61,7 @@ function App() {
             </header>
 
             <section className="mb-6">
-                {!accessToken ? (
+                {!sessionStorage.getItem("accessToken") && !accessToken  ? (
                     <button
                         onClick={handleSpotifyLogin}
                         className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
@@ -67,7 +74,7 @@ function App() {
             </section>
 
             <section>
-                <form onSubmit={handleBandSearch} className="mb-4">
+                {setlists.length === 0 && (<form onSubmit={handleBandSearch} className="mb-4">
                     <div className="mb-2">
                         <label className="block text-sm font-medium text-gray-700">
                             Band Name
@@ -91,7 +98,7 @@ function App() {
                             value={yearOf}
                             onChange={(e) => setYearOf(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-                            placeholder="Enter year"
+                            placeholder={date.getFullYear()}
                             required
                         />
                     </div>
@@ -102,7 +109,7 @@ function App() {
                     >
                         Search Setlists
                     </button>
-                </form>
+                </form>)}
 
                 {error && <p className="text-red-500">{error}</p>}
 
@@ -110,18 +117,22 @@ function App() {
                     <div>
                         <h2 className="text-xl font-bold mb-2">Setlists</h2>
                         <ul className="list-disc pl-5">
+
                             {setlists.map((setlist, index) => (
 
-                                <li key={index}>
-                                    <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
-                                    <ul>
-                                        {setlist.set.set[0].song.map((song, index) => (
-                                            <li key={index}>{song.name}</li>
+                                <> <AddToPlaylist playlistArr={setlist.set.set[0]?.song}/>
 
-                                        ))}</ul>
+                                    <li key={index}>
+                                        <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                        <ul>
+                                            {setlist.set.set[0]?.song.map((song, index) => (
+                                                <li key={index}>{song.name}</li>
+
+                                            ))}</ul>
 
 
-                                </li>
+                                    </li>
+                                </>
                             ))}
                         </ul>
                     </div>
