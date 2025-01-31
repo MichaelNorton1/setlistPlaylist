@@ -20,7 +20,7 @@ function App() {
     useEffect(() => {
         async function logErrorToServer(message) {
             try {
-                await axios.post("http://localhost:3000/error", { msg: message });
+                await axios.post("http://https://playlist-api-mu.vercel.app/error", { msg: message });
                 console.log("Error logged successfully.");
             } catch (error) {
                 console.error("Failed to log error:", error);
