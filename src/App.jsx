@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import AddToPlaylist from "./components/AddToPlaylist.jsx";
+import Spinner from "react-bootstrap/Spinner";
 
 function App() {
     const [band, setBand] = useState("");
     const [yearOf, setYearOf] = useState("");
     const [setlists, setSetlists] = useState([]);
     const [error, setError] = useState(null);
-    const [accessToken, setAccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState(null)
+    const [loading, setLoading] = useState(false);
     let date = new Date();
-
 
 
     // decide on state managment to make more components
@@ -32,6 +33,7 @@ function App() {
     const handleBandSearch = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const response = await axios.post("https://playlist-api-mu.vercel.app/band", {
                 band,
                 yearOf,
@@ -42,10 +44,11 @@ function App() {
             }));
             setSetlists(transformedData)
             console.log(transformedData)
-
+            setLoading(false);
             setError(null);
         } catch (err) {
             console.log(err);
+            setLoading(false);
             setError(err.response?.data?.error || "An error occurred.");
         }
     };
@@ -62,7 +65,7 @@ function App() {
             </header>
 
             <section className="mb-6">
-                {!sessionStorage.getItem("accessToken") && !accessToken  ? (
+                {!sessionStorage.getItem("accessToken") && !accessToken ? (
                     <button
                         onClick={handleSpotifyLogin}
                         className=""
@@ -115,7 +118,14 @@ function App() {
                         type="submit"
                         className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
                     >
-                        Search Setlists
+                        {loading ?  <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            className="mr-2"
+                        /> : "Search Setlists"}
                     </button>
                 </form>)}
 
@@ -128,10 +138,12 @@ function App() {
 
                             {setlists.map((setlist, index) => (
 
-                                setlist.set && setlist.set.set[0]?.song.length > 0?   ( <> <AddToPlaylist playlistArr={setlist.set.set[0]?.song}/>
+                                setlist.set && setlist.set.set[0]?.song.length > 0 ? (<>
 
                                     <li key={index}>
                                         <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                        <AddToPlaylist
+                                            playlistArr={setlist.set.set[0]?.song}/>
                                         <ul>
                                             {setlist.set.set[0]?.song.map((song, index) => (
                                                 <li key={index}>{song.name}</li>
@@ -140,7 +152,7 @@ function App() {
 
 
                                     </li>
-                                </>): null
+                                    <br/></>) : null
                             ))}
                         </ul>
                     </div>

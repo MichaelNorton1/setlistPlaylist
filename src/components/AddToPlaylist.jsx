@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
 
+// eslint-disable-next-line react/prop-types
 const AddToPlaylist = ({playlistArr}) => {
     const [playlistName, setPlaylistName] = useState("");
 
     const [message, setMessage] = useState("");
-    const [accessToken, setAccesToken] = useState(sessionStorage.getItem("accessToken"));
+    const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
     const [loading, setLoading] = useState(false);
 
     const searchTrack = async (query) => {
@@ -96,7 +97,7 @@ const AddToPlaylist = ({playlistArr}) => {
 
 
     return (
-        <div className="p-4 max-w-md mx-auto bg-gray-800 text-white rounded-lg">
+        <div className=" max-w-md mx-auto bg-gray-800 text-white rounded-lg">
             <h2 className="text-xl font-bold mb-2">Create Spotify Playlist</h2>
             <input
                 className="w-full p-2 mb-2 text-white rounded"

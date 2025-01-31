@@ -58,7 +58,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 button,input{
-
-  background-color: rgb(26, 26, 26)
+  color: White !important;
+  background-color: rgb(26, 26, 26) !important
 }
 
