@@ -86,7 +86,7 @@ const AddToPlaylist = ({playlistArr}) => {
             setMessage("Playlist created and tracks added!");
         } catch (error) {
             console.error(error);
-            setMessage("Error creating playlist.");
+            setMessage("Error creating playlist." + error);
         }
     };
 
