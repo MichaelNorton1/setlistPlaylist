@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 
 const AddToPlaylist = ({playlistArr}) => {
     const [playlistName, setPlaylistName] = useState("");
 
     const [message, setMessage] = useState("");
     const [accessToken, setAccesToken] = useState(sessionStorage.getItem("accessToken"));
+    const [loading, setLoading] = useState(false);
 
     const searchTrack = async (query) => {
         try {
@@ -33,6 +35,7 @@ const AddToPlaylist = ({playlistArr}) => {
         }
 
         try {
+            setLoading(true);
             // Step 1: Get the User ID
             const userResponse = await axios.get("https://api.spotify.com/v1/me", {
                 headers: {Authorization: `Bearer ${accessToken}`},
@@ -78,7 +81,7 @@ const AddToPlaylist = ({playlistArr}) => {
                     },
                 }
             );
-
+            setLoading(false);
             setMessage("Playlist created and tracks added!");
         } catch (error) {
             console.error(error);
@@ -103,11 +106,28 @@ const AddToPlaylist = ({playlistArr}) => {
                 onChange={(e) => setPlaylistName(e.target.value)}
             />
 
+
+
             <button
                 className="w-full p-2 bg-green-500 hover:bg-green-700 rounded"
                 onClick={createPlaylist}
             >
-                Create Playlist
+                {loading ? (
+                    <>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            className="mr-2"
+                        />
+                        Processing...
+                    </>
+                ) : (
+                    "Create Playlist"
+                )}
+
             </button>
             {message && <p className="mt-2 text-black text-sm">{message}</p>}
         </div>

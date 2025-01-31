@@ -17,7 +17,7 @@ function App() {
     // add and delete from songs to send to spotity
 
     useEffect(() => {
-        setYearOf(date.getFullYear())
+        setYearOf(2024)
         const query = new URLSearchParams(window.location.search);
         const token = query.get("access_token");
         if (token) {
@@ -41,6 +41,7 @@ function App() {
                 set: item?.sets, // assuming sets is part of the item
             }));
             setSetlists(transformedData)
+            console.log(transformedData)
 
             setError(null);
         } catch (err) {
@@ -64,14 +65,21 @@ function App() {
                 {!sessionStorage.getItem("accessToken") && !accessToken  ? (
                     <button
                         onClick={handleSpotifyLogin}
-                        className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
+                        className=""
                     >
                         Login with Spotify
                     </button>
                 ) : (
                     <p className="text-green-600">You are logged in to Spotify!</p>
                 )}
+                {setlists.length > 0 && (<div>
+                    <button onClick={() => {
+                        setSetlists([])
+                    }}>back to search
+                    </button>
+                </div>)}
             </section>
+
 
             <section>
                 {setlists.length === 0 && (<form onSubmit={handleBandSearch} className="mb-4">
@@ -120,7 +128,7 @@ function App() {
 
                             {setlists.map((setlist, index) => (
 
-                                <> <AddToPlaylist playlistArr={setlist.set.set[0]?.song}/>
+                                setlist.set && setlist.set.set[0]?.song.length > 0?   ( <> <AddToPlaylist playlistArr={setlist.set.set[0]?.song}/>
 
                                     <li key={index}>
                                         <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
@@ -132,7 +140,7 @@ function App() {
 
 
                                     </li>
-                                </>
+                                </>): null
                             ))}
                         </ul>
                     </div>
