@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import AddToPlaylist from "./components/AddToPlaylist.jsx";
 import Spinner from "react-bootstrap/Spinner";
+import logErrorToServer from "./logErrorToServer.js";
 
 function App() {
     const [band, setBand] = useState("");
@@ -18,17 +19,10 @@ function App() {
     // add and delete from songs to send to spotity
 
     useEffect(() => {
-        async function logErrorToServer(message) {
-            try {
-                await axios.post("https://playlist-api-mu.vercel.app/error", { msg: message });
-                console.log("Error logged successfully.");
-            } catch (error) {
-                console.error("Failed to log error:", error);
-            }
-        }
+
 
 // Example usage: Call this function when an error occurs
-        logErrorToServer("Something went wrong in the frontend!");
+
         setYearOf(2024)
         const query = new URLSearchParams(window.location.search);
         const token = query.get("access_token");
@@ -61,6 +55,7 @@ function App() {
             console.log(err);
             setLoading(false);
             setError(err.response?.data?.error || "An error occurred.");
+           await logErrorToServer(JSON.stringify(err));
         }
     };
 

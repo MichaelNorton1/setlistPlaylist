@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import logErrorToServer from "../logErrorToServer.js";
 
 // eslint-disable-next-line react/prop-types
 const AddToPlaylist = ({playlistArr}) => {
@@ -25,6 +26,7 @@ const AddToPlaylist = ({playlistArr}) => {
             return tracks.length > 0 ? tracks[0].uri : null;
         } catch (error) {
             console.error("Error searching for track:", error);
+            await logErrorToServer(JSON.stringify(error));
             return null;
         }
     };
@@ -87,6 +89,7 @@ const AddToPlaylist = ({playlistArr}) => {
         } catch (error) {
             console.error(error);
             setMessage("Error creating playlist." + error);
+            await logErrorToServer(JSON.stringify(error));
         }
     };
 
