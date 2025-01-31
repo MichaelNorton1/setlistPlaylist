@@ -18,6 +18,17 @@ function App() {
     // add and delete from songs to send to spotity
 
     useEffect(() => {
+        async function logErrorToServer(message) {
+            try {
+                await axios.post("http://localhost:3000/error", { msg: message });
+                console.log("Error logged successfully.");
+            } catch (error) {
+                console.error("Failed to log error:", error);
+            }
+        }
+
+// Example usage: Call this function when an error occurs
+        logErrorToServer("Something went wrong in the frontend!");
         setYearOf(2024)
         const query = new URLSearchParams(window.location.search);
         const token = query.get("access_token");
