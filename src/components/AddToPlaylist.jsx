@@ -73,7 +73,7 @@ const AddToPlaylist = ({playlistArr}) => {
             console.log(songs);
             for (const entry of songs) {
                 if (entry) {
-                    const uri = await searchTrack(entry.name);
+                    const uri = await searchTrack(entry);
                     if (uri) trackUris.push(uri);
                 }
             }
