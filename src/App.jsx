@@ -171,11 +171,7 @@ function App() {
 
                                         <AddToPlaylist
                                             playlistArr={setlist.set.set}/>
-                                        <ul>
-                                            {setlist.set.set[0]?.song.map((song, index) => (
-                                                <li key={index}>{song.name}</li>
 
-                                            ))}</ul>
 
 
                                     </li>
