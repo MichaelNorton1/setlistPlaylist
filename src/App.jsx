@@ -14,6 +14,7 @@ function App() {
     let date = new Date();
 
 
+
     // decide on state managment to make more components
     // local storage?
     // add and delete from songs to send to spotity
@@ -144,12 +145,32 @@ function App() {
 
                             {setlists.map((setlist, index) => (
 
+
                                 setlist.set && setlist.set.set[0]?.song.length > 0 ? (<>
 
                                     <li key={index}>
                                         <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                        <div>
+                                            {setlist.set.set.map((item, index) => (
+
+                                                <div key={index} style={{marginBottom: "20px"}}>
+                                                    {item.name && <h2>{item.name}</h2>}
+                                                    <ul>
+                                                        {item.song.map((song, i) => (
+                                                            <li key={i}>
+                                                                <strong>{song.name || "Unnamed Song"}</strong>
+
+
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </div>
+
+
                                         <AddToPlaylist
-                                            playlistArr={setlist.set.set[0]?.song}/>
+                                            playlistArr={setlist.set.set}/>
                                         <ul>
                                             {setlist.set.set[0]?.song.map((song, index) => (
                                                 <li key={index}>{song.name}</li>

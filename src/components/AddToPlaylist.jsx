@@ -10,6 +10,11 @@ const AddToPlaylist = ({playlistArr}) => {
     const [message, setMessage] = useState("");
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
     const [loading, setLoading] = useState(false);
+    const getAllSongs = (set) => {
+        return set.flatMap((item) =>
+            item.song.map((song) => song.name).filter((name) => name) // Remove empty song names
+        );
+    };
 
     const searchTrack = async (query) => {
         try {
@@ -32,6 +37,7 @@ const AddToPlaylist = ({playlistArr}) => {
     };
 
     const createPlaylist = async () => {
+
         if (!sessionStorage.getItem("accessToken")) {
             setMessage("Access token required!");
             return;
@@ -63,7 +69,7 @@ const AddToPlaylist = ({playlistArr}) => {
 
             const playlistId = playlistResponse.data.id;
             const trackUris=[]
-            for (const entry of playlistArr) {
+            for (const entry of getAllSongs(playlistArr)) {
                 if (entry) {
                     const uri = await searchTrack(entry.name);
                     if (uri) trackUris.push(uri);
