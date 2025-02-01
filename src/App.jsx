@@ -148,8 +148,11 @@ function App() {
 
                                 setlist.set && setlist.set.set[0]?.song.length > 0 ? (<>
 
+
                                     <li key={index}>
-                                        <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                        <h3><strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}</h3>
+                                        <AddToPlaylist
+                                            playlistArr={setlist.set.set}/>
                                         <div>
                                             {setlist.set.set.map((item, index) => (
 
@@ -169,8 +172,7 @@ function App() {
                                         </div>
 
 
-                                        <AddToPlaylist
-                                            playlistArr={setlist.set.set}/>
+
 
 
 

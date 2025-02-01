@@ -109,7 +109,7 @@ const AddToPlaylist = ({playlistArr}) => {
 
     return (
         <div className=" max-w-md mx-auto bg-gray-800 text-white rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Create Spotify Playlist</h2>
+            <h4 className="text-xl font-bold mb-2">Create Spotify Playlist</h4>
             <input
                 className="w-full p-2 mb-2 text-white rounded"
                 type="text"
