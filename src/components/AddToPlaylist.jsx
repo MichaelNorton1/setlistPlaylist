@@ -69,7 +69,9 @@ const AddToPlaylist = ({playlistArr}) => {
 
             const playlistId = playlistResponse.data.id;
             const trackUris=[]
-            for (const entry of getAllSongs(playlistArr)) {
+            let songs =getAllSongs(playlistArr)
+            console.log(songs);
+            for (const entry of songs) {
                 if (entry) {
                     const uri = await searchTrack(entry.name);
                     if (uri) trackUris.push(uri);
@@ -93,7 +95,7 @@ const AddToPlaylist = ({playlistArr}) => {
             setLoading(false);
             setMessage("Playlist created and tracks added!");
         } catch (error) {
-            console.error(error);
+            setLoading(false);
             setMessage("Error creating playlist." + error);
             await logErrorToServer(JSON.stringify(error));
         }
