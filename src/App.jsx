@@ -3,6 +3,7 @@ import axios from "axios";
 import AddToPlaylist from "./components/AddToPlaylist.jsx";
 import Spinner from "react-bootstrap/Spinner";
 import logErrorToServer from "./logErrorToServer.js";
+import SearchBar from "./components/SearchBar.jsx";
 
 function App() {
     const [band, setBand] = useState("");
@@ -70,6 +71,7 @@ function App() {
                 <h1 className="text-2xl font-bold">Band Setlist Finder</h1>
                 <p className="text-gray-600">Search for band setlists by year.</p>
             </header>
+            <SearchBar></SearchBar>
 
             <section className="mb-6">
                 {!sessionStorage.getItem("accessToken") && !accessToken ? (
