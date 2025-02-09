@@ -97,7 +97,13 @@ const AddToPlaylist = ({playlistArr}) => {
         } catch (error) {
             setLoading(false);
             setMessage("Error creating playlist." + error);
-            await logErrorToServer(JSON.stringify(error));
+
+            await logErrorToServer(JSON.stringify({
+                error:error,
+                status: error.response?.status,
+                statusText: error.response?.statusText,
+                data: error.response?.data,
+            }));
         }
     };
 
