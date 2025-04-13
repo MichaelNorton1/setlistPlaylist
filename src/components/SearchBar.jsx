@@ -64,27 +64,27 @@ function SearchBar() {
         <div className="SearchBar">
             <Autocomplete
                 options={options}
-                getOptionLabel={(option) => `${option.name ? `${option.name} - ` : ''}${option.artists}` }
-                renderOption={(option) => (
-                    <React.Fragment>
-                        {option.img && <img src={option.img} width={32} height={32} alt="album artwork"></img>}
+                getOptionLabel={(option) => `${option.name ? `${option.name} - ` : ''}${option.artists}`}
+                renderOption={(props, option) => (
+                    <li {...props}>
+                        {option.img && <img src={option.img} width={32} height={32} alt="album artwork" />}
                         &nbsp;
                         {option.name && <span>{option.name} -&nbsp;</span>}
                         {option.artists}
                         &nbsp;
-                        {option.explicit && <span style={{fontSize: '.75em', fontWeight: 'bold', color: 'red'}}>E</span>}
-                    </React.Fragment>
+                        {option.explicit && <span style={{ fontSize: '.75em', fontWeight: 'bold', color: 'red' }}>E</span>}
+                    </li>
                 )}
                 autoHighlight
                 autoSelect
-                noOptionsText="Search for Artists "
+                noOptionsText="Search for Artists"
                 onInputChange={updateOptions}
-                filterOptions={(options, state) => options}
-                getOptionSelected={(option, value) => option.id === value.id}
-                renderInput={(params) => <TextField {...params} label="Pick an Artist" variant="outlined"/>}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => <TextField {...params} label="Pick an Artist" variant="outlined" />}
                 onChange={handleSelectionChange}
                 groupBy={(option) => option.type}
             />
+
         </div>
     )
 }
