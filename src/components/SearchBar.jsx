@@ -8,11 +8,14 @@ import TextField from '@mui/material/TextField';
  */
 function SearchBar() {
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
+    const [options, setOptions] = useState([])
+
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`
     }
+
 
     useEffect(() => {
         setAccessToken(sessionStorage.getItem("accessToken"))
@@ -21,7 +24,7 @@ function SearchBar() {
     }, []);
 
 
-    const [options, setOptions] = useState([])
+
 
     function updateOptions(event, value, reason) {
         if (value && value !== '') {
@@ -29,7 +32,7 @@ function SearchBar() {
                 .then(response => response.json())
                 .then(
                     (result) => {
-                        console.log(result)
+
 
 
                         const artists = result.artists.items.map(artist => ({
@@ -40,7 +43,7 @@ function SearchBar() {
                         }))
 
                         setOptions([...artists])
-                        console.log(options)
+                        console.log(artists, options)
                     }
                 )
                 .catch(error => {
