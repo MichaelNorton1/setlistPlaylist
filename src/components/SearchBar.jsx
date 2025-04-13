@@ -29,6 +29,9 @@ function SearchBar() {
                 .then(response => response.json())
                 .then(
                     (result) => {
+                        console.log(result)
+
+
                         const artists = result.artists.items.map(artist => ({
                             type: 'Artists',
                             artists: artist.name,
@@ -37,6 +40,7 @@ function SearchBar() {
                         }))
 
                         setOptions([...artists])
+                        console.log(options)
                     }
                 )
                 .catch(error => {
