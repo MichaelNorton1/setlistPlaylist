@@ -10,7 +10,7 @@ function SearchBar({setBand}) {
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
     const [options, setOptions] = useState([])
 
-    const headers = {
+    let headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`
@@ -20,13 +20,20 @@ function SearchBar({setBand}) {
     useEffect(() => {
         setAccessToken(sessionStorage.getItem("accessToken"))
 
-        console.log("access",accessToken,sessionStorage.getItem("accessToken"))
+
     }, []);
 
 
 
 
     function updateOptions(event, value, reason) {
+
+        setAccessToken(sessionStorage.getItem("accessToken"))
+        let headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        }
         if (value && value !== '') {
             fetch(`https://api.spotify.com/v1/search?q=${value.split(' ').join('%20')}&type=artist&limit=5`, { headers })
                 .then(response => response.json())

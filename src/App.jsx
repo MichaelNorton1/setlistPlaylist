@@ -92,7 +92,7 @@ function App() {
 
 
             <section>
-                {setlists.length === 0 && (
+                {setlists.length === 0 &&  accessToken ? (
                     <form onSubmit={handleBandSearch} className="mb-4">
                     <div className="mb-2">
                         <label className="block text-sm font-medium text-gray-700">
@@ -100,14 +100,7 @@ function App() {
                         </label>
 
                         <SearchBar setBand={setBand}></SearchBar>
-                        <input
-                            type="text"
-                            value={band}
-                            onChange={(e) => setBand(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
-                            placeholder="Enter band name"
-                            required
-                        />
+
                     </div>
 
                     <div className="mb-4">
@@ -137,7 +130,7 @@ function App() {
                             className="mr-2"
                         /> : "Search Setlists"}
                     </button>
-                </form>)}
+                </form>) :"Login!"}
 
                 {error && <p className="text-red-500">{error}</p>}
 
