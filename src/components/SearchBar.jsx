@@ -17,7 +17,7 @@ function SearchBar() {
     useEffect(() => {
         setAccessToken(sessionStorage.getItem("accessToken"))
 
-        console.log(accessToken)
+        console.log("access",accessToken,sessionStorage.getItem("accessToken"))
     }, []);
 
 
