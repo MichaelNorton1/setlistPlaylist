@@ -49,7 +49,7 @@ function App() {
                 set: item?.sets, // assuming sets is part of the item
             }));
             setSetlists(transformedData)
-            console.log(transformedData)
+
             setLoading(false);
             setError(null);
         } catch (err) {
@@ -92,7 +92,7 @@ function App() {
 
 
             <section>
-                {setlists.length === 0 &&  accessToken ? (
+                {setlists.length === 0&& (
                     <form onSubmit={handleBandSearch} className="mb-4">
                     <div className="mb-2">
                         <label className="block text-sm font-medium text-gray-700">
@@ -130,7 +130,7 @@ function App() {
                             className="mr-2"
                         /> : "Search Setlists"}
                     </button>
-                </form>) :"Login!"}
+                </form>) }
 
                 {error && <p className="text-red-500">{error}</p>}
 

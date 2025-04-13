@@ -50,7 +50,7 @@ function SearchBar({setBand}) {
                         }))
 
                         setOptions([...artists])
-                        console.log(artists, options)
+
                     }
                 )
                 .catch(error => {
