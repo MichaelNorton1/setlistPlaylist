@@ -25,7 +25,7 @@ function SearchBar() {
 
     function updateOptions(event, value, reason) {
         if (value && value !== '') {
-            fetch(`https://api.spotify.com/v1/search?q=${value.split(' ').join('%20')}&type=track,artist&limit=5`, { headers })
+            fetch(`https://api.spotify.com/v1/search?q=${value.split(' ').join('%20')}&type=artist&limit=5`, { headers })
                 .then(response => response.json())
                 .then(
                     (result) => {
@@ -35,15 +35,8 @@ function SearchBar() {
                             img: (artist.images.length ? artist.images.slice(-1)[0].url : null),
                             id: artist.id
                         }))
-                        const tracks = result.tracks.items.map(track => ({
-                            type: 'Tracks',
-                            name: track.name,
-                            artists: track.artists.map(artist => artist.name).join(', '),
-                            img: (track.album.images.length ? track.album.images.slice(-1)[0].url : null),
-                            explicit: track.explicit,
-                            id: track.id
-                        }))
-                        setOptions([...tracks, ...artists])
+
+                        setOptions([...artists])
                     }
                 )
                 .catch(error => {
@@ -77,11 +70,11 @@ function SearchBar() {
                 )}
                 autoHighlight
                 autoSelect
-                noOptionsText="Search for Artists or Tracks..."
+                noOptionsText="Search for Artists "
                 onInputChange={updateOptions}
                 filterOptions={(options, state) => options}
                 getOptionSelected={(option, value) => option.id === value.id}
-                renderInput={(params) => <TextField {...params} label="Pick a seed Song or Artist" variant="outlined"/>}
+                renderInput={(params) => <TextField {...params} label="Pick an Artist" variant="outlined"/>}
                 onChange={handleSelectionChange}
                 groupBy={(option) => option.type}
             />
