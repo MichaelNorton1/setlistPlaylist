@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
@@ -13,6 +13,13 @@ function SearchBar() {
         'Accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`
     }
+
+    useEffect(() => {
+        setAccessToken(sessionStorage.getItem("accessToken"))
+
+        console.log(accessToken)
+    }, []);
+
 
     const [options, setOptions] = useState([])
 
