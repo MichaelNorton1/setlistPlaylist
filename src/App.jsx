@@ -98,6 +98,8 @@ function App() {
                         <label className="block text-sm font-medium text-gray-700">
                             Band Name
                         </label>
+
+                        <SearchBar ></SearchBar>
                         <input
                             type="text"
                             value={band}
