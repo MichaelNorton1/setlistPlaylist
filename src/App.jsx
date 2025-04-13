@@ -15,7 +15,6 @@ function App() {
     let date = new Date();
 
 
-
     // decide on state managment to make more components
     // local storage?
     // add and delete from songs to send to spotity
@@ -57,7 +56,7 @@ function App() {
             console.log(err);
             setLoading(false);
             setError(err.response?.data?.error || "An error occurred.");
-           await logErrorToServer(JSON.stringify(err));
+            await logErrorToServer(JSON.stringify(err));
         }
     };
 
@@ -93,13 +92,14 @@ function App() {
 
 
             <section>
-                {setlists.length === 0 && (<form onSubmit={handleBandSearch} className="mb-4">
+                {setlists.length === 0 && (
+                    <form onSubmit={handleBandSearch} className="mb-4">
                     <div className="mb-2">
                         <label className="block text-sm font-medium text-gray-700">
                             Band Name
                         </label>
 
-                        <SearchBar ></SearchBar>
+                        <SearchBar setBand={setBand}></SearchBar>
                         <input
                             type="text"
                             value={band}
@@ -128,7 +128,7 @@ function App() {
                         type="submit"
                         className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
                     >
-                        {loading ?  <Spinner
+                        {loading ? <Spinner
                             as="span"
                             animation="border"
                             size="sm"
@@ -153,7 +153,9 @@ function App() {
 
 
                                     <li key={index}>
-                                        <h3><strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}</h3>
+                                        <h3>
+                                            <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
+                                        </h3>
                                         <AddToPlaylist
                                             playlistArr={setlist.set.set}/>
                                         <div>
@@ -173,10 +175,6 @@ function App() {
                                                 </div>
                                             ))}
                                         </div>
-
-
-
-
 
 
                                     </li>

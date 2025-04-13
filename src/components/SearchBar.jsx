@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 /*
  * Search.js is responsible for the dynamic search bar
  */
-function SearchBar() {
+function SearchBar({setBand}) {
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
     const [options, setOptions] = useState([])
 
@@ -56,6 +56,8 @@ function SearchBar() {
         console.log(value)
         // Process selected track/artist for your use case here
         if (value) {
+            setBand(value.artists)
+
             // Example: You can set selected track/artist as a seed for playlist generation or other logic
         }
     }
