@@ -95,9 +95,7 @@ function App() {
                 {setlists.length === 0&& (
                     <form onSubmit={handleBandSearch} className="mb-4">
                     <div className="mb-2">
-                        <label className="block text-sm font-medium text-gray-700">
-                            Band Name
-                        </label>
+
 
                         <SearchBar setBand={setBand}></SearchBar>
 
