@@ -18,7 +18,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
 
     const searchTrack = async (trackName,artistName) => {
 
-        console.log(trackName,bandName);
+        console.log(trackName,artistName);
         try {
             const response = await axios.get("https://api.spotify.com/v1/search", {
                 headers: {Authorization: `Bearer ${accessToken}`},
