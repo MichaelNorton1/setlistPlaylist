@@ -4,7 +4,7 @@ import Spinner from "react-bootstrap/Spinner";
 import logErrorToServer from "../logErrorToServer.js";
 
 // eslint-disable-next-line react/prop-types
-const AddToPlaylist = ({playlistArr}) => {
+const AddToPlaylist = ({playlistArr,band}) => {
     const [playlistName, setPlaylistName] = useState("");
 
     const [message, setMessage] = useState("");
@@ -16,7 +16,7 @@ const AddToPlaylist = ({playlistArr}) => {
         );
     };
 
-    const searchTrack = async (query) => {
+    const searchTrack = async (trackName,artistName) => {
         try {
             const response = await axios.get("https://api.spotify.com/v1/search", {
                 headers: {Authorization: `Bearer ${accessToken}`},
@@ -73,7 +73,7 @@ const AddToPlaylist = ({playlistArr}) => {
             console.log(playlistArr);
             for (const entry of songs) {
                 if (entry) {
-                    const uri = await searchTrack(entry,artist);
+                    const uri = await searchTrack(entry,band);
                     if (uri) trackUris.push(uri);
                 }
             }
