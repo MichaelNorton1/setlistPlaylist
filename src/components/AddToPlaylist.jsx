@@ -21,7 +21,7 @@ const AddToPlaylist = ({playlistArr}) => {
             const response = await axios.get("https://api.spotify.com/v1/search", {
                 headers: {Authorization: `Bearer ${accessToken}`},
                 params: {
-                    q: query,
+                    q: `track:${trackName} artist:${artistName}`,
                     type: "track",
                     limit: 1, // Get only the first matching track
                 },
@@ -70,10 +70,10 @@ const AddToPlaylist = ({playlistArr}) => {
             const playlistId = playlistResponse.data.id;
             const trackUris=[]
             let songs =getAllSongs(playlistArr)
-            console.log(songs);
+            console.log(playlistArr);
             for (const entry of songs) {
                 if (entry) {
-                    const uri = await searchTrack(entry);
+                    const uri = await searchTrack(entry,artist);
                     if (uri) trackUris.push(uri);
                 }
             }
