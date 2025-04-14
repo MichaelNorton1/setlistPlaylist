@@ -148,7 +148,7 @@ function App() {
                                             <strong>{setlist.setlist.eventDate}</strong>: {setlist.setlist.venue?.name}, {setlist.setlist.venue?.city?.name}
                                         </h3>
                                         <AddToPlaylist
-                                            playlistArr={setlist.set.set} artist={band}/>
+                                            playlistArr={setlist.set.set} band={band}/>
                                         <div>
                                             {setlist.set.set.map((item, index) => (
 
