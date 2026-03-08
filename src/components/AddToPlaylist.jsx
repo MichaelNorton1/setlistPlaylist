@@ -1,14 +1,14 @@
 import React, {useState} from "react";
-import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
-import logErrorToServer from "../logErrorToServer.js";
+import { useAuth } from "../contexts/AuthContext";
+import { useApi } from "../composables/useApi.js";
 
 // eslint-disable-next-line react/prop-types
 const AddToPlaylist = ({playlistArr,band}) => {
+    const { accessToken } = useAuth();
+    const { spotify } = useApi();
     const [playlistName, setPlaylistName] = useState("");
-
     const [message, setMessage] = useState("");
-    const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken"));
     const [loading, setLoading] = useState(false);
     const getAllSongs = (set) => {
         return set.flatMap((item) =>
@@ -16,31 +16,19 @@ const AddToPlaylist = ({playlistArr,band}) => {
         );
     };
 
-    const searchTrack = async (trackName,artistName) => {
-
-        console.log(trackName,artistName);
+    const searchTrack = async (trackName, artistName) => {
+        console.log(trackName, artistName);
         try {
-            const response = await axios.get("https://api.spotify.com/v1/search", {
-                headers: {Authorization: `Bearer ${accessToken}`},
-                params: {
-                    q: `track:${trackName} artist:${artistName}`,
-                    type: "track",
-                    limit: 1, // Get only the first matching track
-                },
-            });
-
-            const tracks = response.data.tracks.items;
-            return tracks.length > 0 ? tracks[0].uri : null;
+            const uri = await spotify.searchTrack(trackName, artistName, accessToken);
+            return uri;
         } catch (error) {
             console.error("Error searching for track:", error);
-            await logErrorToServer(JSON.stringify(error));
             return null;
         }
     };
 
     const createPlaylist = async () => {
-
-        if (!sessionStorage.getItem("accessToken")) {
+        if (!accessToken) {
             setMessage("Access token required!");
             return;
         }
@@ -48,64 +36,41 @@ const AddToPlaylist = ({playlistArr,band}) => {
         try {
             setLoading(true);
             // Step 1: Get the User ID
-            const userResponse = await axios.get("https://api.spotify.com/v1/me", {
-                headers: {Authorization: `Bearer ${accessToken}`},
-            });
-            const userId = userResponse.data.id;
+            const user = await spotify.getCurrentUser(accessToken);
+            const userId = user.id;
 
             // Step 2: Create a new Playlist
-            const playlistResponse = await axios.post(
-                `https://api.spotify.com/v1/users/${userId}/playlists`,
+            const playlist = await spotify.createPlaylist(
+                userId,
                 {
                     name: playlistName || "New Playlist",
                     description: "Created with Spotify API",
                     public: true,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        "Content-Type": "application/json",
-                    },
-                }
+                accessToken
             );
 
-            const playlistId = playlistResponse.data.id;
-            const trackUris=[]
-            let songs =getAllSongs(playlistArr)
+            const playlistId = playlist.id;
+            const trackUris = [];
+            let songs = getAllSongs(playlistArr);
             console.log(playlistArr);
+            
             for (const entry of songs) {
                 if (entry) {
-                    const uri = await searchTrack(entry,band);
+                    const uri = await searchTrack(entry, band);
                     if (uri) trackUris.push(uri);
                 }
             }
 
             // Step 3: Add Tracks to the Playlist
-
-            await axios.post(
-                `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-                {
-                    uris: trackUris,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            await spotify.addTracksToPlaylist(playlistId, trackUris, accessToken);
+            
             setLoading(false);
             setMessage("Playlist created and tracks added!");
         } catch (error) {
             setLoading(false);
             setMessage("Error creating playlist." + error);
-
-            await logErrorToServer(JSON.stringify({
-                error:error,
-                status: error.response?.status,
-                statusText: error.response?.statusText,
-                data: error.response?.data,
-            }));
+            console.error("Playlist creation error:", error);
         }
     };
 
