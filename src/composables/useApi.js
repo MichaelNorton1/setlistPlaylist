@@ -99,7 +99,7 @@ export const useApi = () => {
 
   // Spotify API methods
   const spotify = {
-    // Search for tracks
+    // Search for tracks y
     searchTrack: async (trackName, artistName, accessToken) => {
       try {
         const response = await spotifyClient.get(spotifyEndpoints.search, {
