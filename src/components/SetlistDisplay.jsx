@@ -29,7 +29,7 @@ const SetlistDisplay = () => {
                   {globalPlaylist.map((item, index) => (
                       <div key={index}>{item.name}</div>  // ← whatever your object keys are
                   ))}
-                  <button onClick={()=>{
+                  {/*<button onClick={()=>{
 
 
                       const songs = setlist.set.set.flatMap((item) =>
@@ -42,7 +42,7 @@ const SetlistDisplay = () => {
                       setGlobalPlaylist((prevState) => [setlist.set.set,...prevState])
                       console.log(globalPlaylist);
 
-                  }}>add to global playlist</button>
+                  }}>add to global playlist</button>*/}
                 <div>
                   {setlist.set.set.map((item, index) => (
                     <div key={index} style={{marginBottom: "20px"}}>

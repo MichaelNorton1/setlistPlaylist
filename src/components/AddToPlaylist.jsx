@@ -66,7 +66,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
             await spotify.addTracksToPlaylist(playlistId, trackUris, accessToken);
 
             setLoading(false);
-            setMessage("Playlist created and tracks added!");
+            setMessage("Playlist created and tracks added!" + " <a>" +playlist.href + "</a>" );
         } catch (error) {
             setLoading(false);
             setMessage("Error creating playlist." + error);
@@ -114,7 +114,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
                 )}
 
             </button>
-            {message && <p className="mt-2 text-black text-sm">{message}</p>}
+            {message && <p className="mt-2 text-black text-sm">{message} </p>}
         </div>
     );
 };
