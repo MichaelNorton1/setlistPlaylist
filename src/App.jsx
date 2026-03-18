@@ -5,17 +5,26 @@ import Header from "./components/Header.jsx";
 import LoginForm from "./components/LoginForm.jsx";
 import SetlistSearch from "./components/SetlistSearch.jsx";
 import SetlistDisplay from "./components/SetlistDisplay.jsx";
+import {useGlobalSetlist} from "./contexts/GlobalSetlist.jsx";
 
 function App() {
+  const [globalPlaylist, setGlobalPlaylist] = useGlobalSetlist();
   return (
+
     <AuthProvider>
+
       <SetlistProvider>
         <div className="p-4">
+
           <Header />
           <LoginForm />
           <section>
+            {globalPlaylist.map((item, index) => (
+                <div key={index}>{item.name}</div>  // ← whatever your object keys are
+            ))}
             <SetlistSearch />
             <SetlistDisplay />
+
           </section>
         </div>
       </SetlistProvider>

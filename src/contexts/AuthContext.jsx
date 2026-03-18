@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get("access_token");
-    console.log("token", token);
+
     
     if (token) {
       setAccessToken(token);

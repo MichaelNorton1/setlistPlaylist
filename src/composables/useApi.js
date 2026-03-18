@@ -135,14 +135,14 @@ export const useApi = () => {
     createPlaylist: async (userId, playlistData, accessToken) => {
       try {
         const response = await spotifyClient.post(
-          `${spotifyEndpoints.playlists}/${userId}/playlists`,
-          playlistData,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json'
+            `/users/${userId}/playlists`,
+            playlistData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+              }
             }
-          }
         );
         return response.data;
       } catch (error) {
@@ -178,7 +178,7 @@ export const useApi = () => {
       }
       
       try {
-        console.log('Searching artists with token:', accessToken ? 'Token present' : 'No token');
+
         const response = await spotifyClient.get(spotifyEndpoints.search, {
           headers: { 
             'Content-Type': 'application/json',

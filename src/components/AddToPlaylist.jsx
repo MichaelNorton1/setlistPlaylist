@@ -17,7 +17,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
     };
 
     const searchTrack = async (trackName, artistName) => {
-        console.log(trackName, artistName);
+
         try {
             const uri = await spotify.searchTrack(trackName, artistName, accessToken);
             return uri;
@@ -53,8 +53,8 @@ const AddToPlaylist = ({playlistArr,band}) => {
             const playlistId = playlist.id;
             const trackUris = [];
             let songs = getAllSongs(playlistArr);
-            console.log(playlistArr);
-            
+
+
             for (const entry of songs) {
                 if (entry) {
                     const uri = await searchTrack(entry, band);
@@ -64,7 +64,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
 
             // Step 3: Add Tracks to the Playlist
             await spotify.addTracksToPlaylist(playlistId, trackUris, accessToken);
-            
+
             setLoading(false);
             setMessage("Playlist created and tracks added!");
         } catch (error) {
