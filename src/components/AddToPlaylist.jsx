@@ -66,7 +66,7 @@ const AddToPlaylist = ({playlistArr,band}) => {
             await spotify.addTracksToPlaylist(playlistId, trackUris, accessToken);
 
             setLoading(false);
-            setMessage("Playlist created and tracks added!" + " <a>" +playlist.href + "</a>" );
+            setMessage("Playlist created and tracks added!" );
         } catch (error) {
             setLoading(false);
             setMessage("Error creating playlist." + error);
